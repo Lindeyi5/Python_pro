@@ -45,19 +45,26 @@ def data_cleaning(array):
     # arr2 = re.sub(r'[^\u4e00-\u9fa5]', '', ar, count=0, flags=0)
     # sentence = re.sub(r'[A-Za-z0-9_.!+-=——,$%^，。？、~@#￥%……&*《》<>「」{}\[\.\*\]【】()/]', '', ar)
     sentence = re.sub(r'["”‘“]', '', ar)
-    sentence2 = sentence.replace('\n\t',' ').replace('\n',' ')
+    sentence2 = sentence.replace('\n\t', ' ').replace('\n', ' ')
     # arr2 = re.sub(r'[^\u4e00-\u9fa5]', '', ar, count=0, flags=0)
     return sentence2
 
 
+Note = open('bili.txt', mode='w',encoding='utf-8')
 # print(s)
 # # 爬取评论的回复
-for i in range(1, 4):
-    url = 'https://api.bilibili.com/x/v2/reply/main?csrf=a4477cd59d624bce7e24f62796d76ab0&mode=3&next='+str(i)+'&oid=752825895&plat=1&type=1'
+for i in range(1, 2000):
+    url = 'https://api.bilibili.com/x/v2/reply/main?csrf=a4477cd59d624bce7e24f62796d76ab0&mode=3&next=' + str(
+        i) + '&oid=752825895&plat=1&type=1'
     # s = crawling_comments(url)
-    s1 = crawling_replies(url)
-    s11 = data_cleaning(s1)
-    print(s11)
+    try:
+        s1 = crawling_replies(url)
+        s11 = data_cleaning(s1)
+        print(str(i)+'页')
+        Note.write(s11)
+    except:
+        continue
+    # print(s11)
 
 # print(s)
 
