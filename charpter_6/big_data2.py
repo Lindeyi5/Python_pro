@@ -1,4 +1,4 @@
-# 开发时间：2023-04-12 22:15
+# 开发时间：2023-04-14 12:39
 # 开发人员：林坚洪
 # encodeing "UTF-8"
 import json
@@ -18,6 +18,9 @@ headers = {
 }
 
 url_1 = 'https://api.bilibili.com/x/v2/reply/reply?csrf=a4477cd59d624bce7e24f62796d76ab0&oid=752825895&pn=3&ps=10&root=2742652493&type=1'
+url_2 = 'https://api.bilibili.com/x/v2/reply/main?csrf=a4477cd59d624bce7e24f62796d76ab0&mode=3&next=0&oid=752825895&plat=1&seek_rpid=&type=1'
+
+url_3 = 'https://api.bilibili.com/x/v2/reply/main?csrf=a4477cd59d624bce7e24f62796d76ab0&mode=3&next=2&oid=752825895&plat=1&type=1'
 
 
 def crawling_comments(dat):
@@ -31,7 +34,7 @@ def crawling_replies(dat):
     htm = requests.get(url)
     data = htm.json()
     kk = []
-    for i in range(0, 10):
+    for i in range(0, 20):
         data[i] = data['data']['replies'][i]['content']['message']  # 查找评论回复原文
         kk.append(data[i])
     return kk
@@ -40,23 +43,23 @@ def crawling_replies(dat):
 def data_cleaning(array):
     ar = ' '.join(array)  # 字符串拼接
     # arr2 = re.sub(r'[^\u4e00-\u9fa5]', '', ar, count=0, flags=0)
-    r = r'[A-Za-z0-9_.!+-=——,$%^，。？、~@#￥%……&*《》<>「」{}[]【】()/]'
-    sentence = re.sub(r'[A-Za-z0-9_.!+-=——,$%^，。？、~@#￥%……&*《》<>「」{}\[\.\*\]【】()/]', '', ar)
+    # sentence = re.sub(r'[A-Za-z0-9_.!+-=——,$%^，。？、~@#￥%……&*《》<>「」{}\[\.\*\]【】()/]', '', ar)
+    sentence = re.sub(r'["”‘“]', '', ar)
+    sentence2 = sentence.replace('\n\t',' ').replace('\n',' ')
     # arr2 = re.sub(r'[^\u4e00-\u9fa5]', '', ar, count=0, flags=0)
-    return sentence
+    return sentence2
 
 
 # print(s)
 # # 爬取评论的回复
-for i in range(1, 11):
-    url = 'https://api.bilibili.com/x/v2/reply/reply?csrf=a4477cd59d624bce7e24f62796d76ab0&oid=752825895&pn=' + str(
-        i) + '&ps=10&root=2742652493&type=1'
-    s = crawling_comments(url)
+for i in range(1, 4):
+    url = 'https://api.bilibili.com/x/v2/reply/main?csrf=a4477cd59d624bce7e24f62796d76ab0&mode=3&next='+str(i)+'&oid=752825895&plat=1&type=1'
+    # s = crawling_comments(url)
     s1 = crawling_replies(url)
     s11 = data_cleaning(s1)
     print(s11)
 
-print(s)
+# print(s)
 
 # data = htm.strip('\n')
 # data = json.loads(htm)
