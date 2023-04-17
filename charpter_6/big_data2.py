@@ -50,10 +50,10 @@ def data_cleaning(array):
     return sentence2
 
 
-Note = open('bili.txt', mode='w',encoding='utf-8')
+Note = open('bili_small.txt', mode='w',encoding='utf-8')
 # print(s)
 # # 爬取评论的回复
-for i in range(1, 2000):
+for i in range(1, 100):
     url = 'https://api.bilibili.com/x/v2/reply/main?csrf=a4477cd59d624bce7e24f62796d76ab0&mode=3&next=' + str(
         i) + '&oid=752825895&plat=1&type=1'
     # s = crawling_comments(url)
