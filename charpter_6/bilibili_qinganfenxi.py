@@ -4,17 +4,22 @@
 import re
 
 import jieba
+
 jieba.setLogLevel(jieba.logging.INFO)
 from snownlp.seg import seg
 
 # fs = open('bili_small.txt', encoding='utf-8')
 # s = fs.read()
+import jieba.analyse
+jieba.analyse.set_stop_words("stop_words.txt")
+
 text = ''
-with open('bili_small.txt',encoding='utf-8') as fileIn:
+with open('bili_small.txt', encoding='utf-8') as fileIn:
     for line in fileIn.readlines():
         line = line.strip('\n')  # 去除换行符
         line = re.sub(r'[^\u4e00-\u9fa5]', '', line)
     text += ' '.join(jieba.cut(line))
+    # words = normal.filter_stop(words)
     text += ' '
 print(text)
 
@@ -38,9 +43,6 @@ import matplotlib.pyplot as plt
 plt.imshow(wc)
 plt.axis('off')
 plt.show()
-
-
-
 
 #
 # from snownlp import SnowNLP, normal
